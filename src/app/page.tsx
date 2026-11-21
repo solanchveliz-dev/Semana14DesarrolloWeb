@@ -1,13 +1,15 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { projects, personalInfo, contactHref } from '@/lib/data';
+import { projects, personalInfo } from '@/lib/data';
 import ProjectCard from '@/components/ProjectCard';
-import { ArrowRight, Atom, Bolt, Chat, Phone, Search } from '@/components/Icons';
+import SocialLinks from '@/components/SocialLinks';
+import { ArrowRight, Code, Download, Layers, Rocket, Star } from '@/components/Icons';
 
-const highlights = [
-  { label: 'SEO Optimizado', Icon: Search },
-  { label: 'Alto rendimiento', Icon: Bolt },
-  { label: 'Responsive', Icon: Phone },
+const stats = [
+  { value: '10+', label: 'Proyectos', Icon: Code },
+  { value: '3+', label: 'Años de experiencia', Icon: Layers },
+  { value: '100%', label: 'Compromiso', Icon: Star },
+  { value: 'SEO', label: 'Optimizado', Icon: Rocket },
 ];
 
 export default function Home() {
@@ -15,120 +17,100 @@ export default function Home() {
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-linear-to-b from-soft/70 to-bg">
-        <div className="container mx-auto px-4 py-12 md:py-20 grid lg:grid-cols-2 gap-12 items-center">
+      {/* Hero Section (fondo oscuro) */}
+      <section className="relative overflow-hidden bg-hero text-white">
+        {/* Imagen de fondo optimizada con next/image */}
+        <Image
+          src={personalInfo.heroBg}
+          alt=""
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+        />
+        {/* Capa oscura a la izquierda para que el texto se lea bien */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-linear-to-r from-hero/80 via-hero/40 to-transparent"
+        />
+        <div className="relative container mx-auto px-4 pt-12 pb-32 md:pt-16 md:pb-40 grid lg:grid-cols-2 gap-10 items-center">
           <div>
-            <p className="inline-block bg-soft text-primary-text text-xs md:text-sm font-semibold tracking-widest uppercase px-4 py-2 rounded-full mb-6">
-              Desarrolladora Full Stack
+            <p className="inline-flex items-center gap-2 bg-accent text-accent-ink font-semibold px-4 py-1.5 rounded-full mb-5">
+              <span aria-hidden="true">👋</span> Hola, soy
             </p>
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-ink leading-[1.1] mb-6">
-              Transformo ideas en{' '}
-              <span className="block bg-linear-to-r from-primary-text to-accent-text bg-clip-text text-transparent">
-                experiencias digitales.
-              </span>
+            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-3">
+              {personalInfo.name}
             </h1>
-            <p className="text-lg text-muted max-w-xl mb-8">
-              Soy {personalInfo.name}. Desarrollo aplicaciones web modernas, rápidas y
-              optimizadas para ofrecer experiencias de alto rendimiento, accesibles y
-              con excelente posicionamiento en buscadores (SEO).
-            </p>
-            <div className="flex flex-wrap gap-4 mb-10">
+            <p className="text-2xl md:text-3xl font-bold mb-5">{personalInfo.title}</p>
+            <p className="text-lg text-slate-300 max-w-xl mb-8">{personalInfo.description}</p>
+            <div className="flex flex-wrap gap-4 mb-8">
               <Link
                 href="/projects"
-                className="inline-flex items-center gap-2 bg-primary text-white font-semibold px-6 py-3 rounded-xl shadow-lg shadow-primary/25 hover:bg-primary/90 transition"
+                className="inline-flex items-center gap-2 bg-accent text-accent-ink font-bold px-6 py-3 rounded-xl shadow-lg shadow-accent/20 hover:brightness-110 transition"
               >
                 Ver proyectos <ArrowRight className="w-5 h-5" />
               </Link>
-              <Link
-                href={contactHref}
-                className="inline-flex items-center gap-2 border-2 border-primary text-primary-text font-semibold px-6 py-3 rounded-xl hover:bg-soft transition"
+              <a
+                href={personalInfo.cv}
+                download
+                className="inline-flex items-center gap-2 border-2 border-white/70 text-white font-semibold px-6 py-3 rounded-xl hover:bg-white/10 transition"
               >
-                <Chat className="w-5 h-5" /> Hablemos
-              </Link>
+                <Download className="w-5 h-5" /> Descargar CV
+              </a>
             </div>
-            <ul className="flex flex-wrap items-center gap-6 text-ink font-medium" aria-label="Tecnologías principales">
-              <li className="flex items-center gap-2">
-                <span className="w-8 h-8 grid place-items-center rounded-full bg-black text-white text-sm font-bold" aria-hidden="true">N</span>
-                Next.js
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-8 h-8 grid place-items-center rounded-md bg-[#3178c6] text-white text-xs font-bold" aria-hidden="true">TS</span>
-                TypeScript
-              </li>
-              <li className="flex items-center gap-2">
-                <Atom className="w-8 h-8 text-sky-500" />
-                React
-              </li>
-            </ul>
+            <SocialLinks onDark />
           </div>
 
-          {/* Imagen principal con decoraciones */}
-          <div className="relative mx-auto w-full max-w-md lg:max-w-lg aspect-square">
-            <div
-              aria-hidden="true"
-              className="absolute inset-4 rounded-[46%_54%_50%_50%] bg-linear-to-br from-violet-300 to-indigo-200 dark:from-violet-900 dark:to-indigo-950"
+          {/* Foto con fondo transparente (se apoya en la parte baja del hero) */}
+          <div className="relative mx-auto w-full max-w-md lg:max-w-xl aspect-[1312/1199] self-end lg:-mb-40">
+            <Image
+              src={personalInfo.heroImage}
+              alt={`Foto de ${personalInfo.name}`}
+              fill
+              priority
+              className="object-contain object-bottom drop-shadow-2xl"
+              sizes="(max-width: 1024px) 90vw, 576px"
             />
-            <div className="absolute inset-10 rounded-[46%_54%_50%_50%] overflow-hidden shadow-2xl">
-              <Image
-                src={personalInfo.avatar}
-                alt={personalInfo.name}
-                fill
-                priority
-                className="object-cover"
-                sizes="(max-width: 1024px) 80vw, 480px"
-              />
-            </div>
-
-            {/* Ventana de código decorativa */}
-            <div
+            {/* Logo sobre la laptop */}
+            <span
               aria-hidden="true"
-              className="absolute top-2 left-0 w-32 md:w-40 rounded-xl bg-slate-900 shadow-xl p-3 -rotate-3"
+              className="absolute left-[33%] top-[83%] -translate-x-1/2 -translate-y-1/2 text-xl md:text-3xl font-extrabold text-white/80"
             >
-              <div className="flex gap-1.5 mb-3">
-                <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
-                <span className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
-                <span className="w-2.5 h-2.5 rounded-full bg-green-400" />
-              </div>
-              <div className="space-y-2">
-                <span className="block h-1.5 w-3/4 rounded bg-violet-400" />
-                <span className="block h-1.5 w-1/2 rounded bg-sky-400" />
-                <span className="block h-1.5 w-5/6 rounded bg-indigo-400" />
-                <span className="block h-1.5 w-2/3 rounded bg-violet-300" />
-              </div>
-            </div>
-
-            {/* Etiquetas flotantes */}
-            <ul className="absolute right-0 top-1/4 space-y-3">
-              {highlights.map(({ label, Icon }) => (
-                <li
-                  key={label}
-                  className="flex items-center gap-2 bg-surface text-ink text-sm font-semibold px-3 py-2 rounded-xl shadow-lg border border-line"
-                >
-                  <Icon className="w-4 h-4 text-primary-text" />
-                  {label}
-                </li>
-              ))}
-            </ul>
+              NV<span className="text-accent">&lt;/&gt;</span>
+            </span>
           </div>
         </div>
       </section>
 
+      {/* Barra de estadísticas */}
+      <section aria-label="Resumen" className="relative z-10 container mx-auto px-4 -mt-20">
+        <ul className="grid grid-cols-2 md:grid-cols-4 gap-y-5 bg-surface border border-line rounded-3xl shadow-xl p-5 md:p-6 md:divide-x md:divide-line">
+          {stats.map(({ value, label, Icon }) => (
+            <li key={label} className="flex items-center justify-center gap-3 md:px-4">
+              <Icon className="w-9 h-9 text-primary-text shrink-0" />
+              <div>
+                <p className="text-xl md:text-2xl font-extrabold text-ink leading-none">{value}</p>
+                <p className="text-sm text-muted">{label}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       {/* Featured Projects */}
-      <section className="container mx-auto px-4 py-16 md:py-20">
-        <p className="text-sm font-semibold tracking-widest uppercase text-primary-text mb-2">
-          Mis proyectos
+      <section className="container mx-auto px-4 py-16 md:py-20 text-center">
+        <p className="text-sm font-semibold tracking-[0.2em] uppercase text-primary-text mb-2">
+          Proyectos destacados
         </p>
         <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-ink mb-3">
-          Proyectos destacados
+          Algunos de <span className="text-primary-text">mis trabajos</span>
         </h2>
-        <p className="text-lg text-muted max-w-2xl mb-10">
-          Una selección de aplicaciones reales donde aplico las mejores prácticas de
-          desarrollo, rendimiento y SEO.
+        <p className="text-lg text-muted max-w-2xl mx-auto mb-10">
+          Proyectos reales aplicando las mejores prácticas de desarrollo, rendimiento y SEO.
         </p>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredProjects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+          {featuredProjects.map((project, index) => (
+            <ProjectCard key={project.slug} project={project} highlight={index === 0} />
           ))}
         </div>
       </section>

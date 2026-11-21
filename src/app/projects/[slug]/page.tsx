@@ -3,7 +3,8 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { projects } from '@/lib/data';
-import { ArrowUpRight, Check, ChevronRight, Github } from '@/components/Icons';
+import { techStyle } from '@/lib/tech';
+import { ArrowLeft, ArrowUpRight, Check, ChevronRight, Code } from '@/components/Icons';
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -55,86 +56,100 @@ export default async function ProjectDetailPage({ params }: Props) {
     <div className="container mx-auto px-4 py-10 md:py-14">
       {/* Breadcrumb */}
       <nav aria-label="Ruta de navegación" className="mb-8">
-        <ol className="flex items-center gap-2 text-sm">
+        <ol className="flex flex-wrap items-center gap-2 text-sm">
           <li>
-            <Link href="/projects" className="text-primary-text font-medium hover:underline">
-              Proyectos
+            <Link
+              href="/projects"
+              className="inline-flex items-center gap-2 border border-line bg-surface text-primary-text font-medium px-3 py-1.5 rounded-lg hover:bg-soft transition"
+            >
+              <ArrowLeft className="w-4 h-4" /> Proyectos
             </Link>
           </li>
           <li aria-hidden="true" className="text-muted">
             <ChevronRight className="w-4 h-4" />
           </li>
-          <li aria-current="page" className="text-ink">
+          <li aria-current="page" className="text-ink font-medium">
             {project.title}
           </li>
         </ol>
       </nav>
 
-      <article className="grid lg:grid-cols-2 gap-10 items-start">
-        <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-line bg-surface shadow-lg">
-          <Image
-            src={project.image}
-            alt={project.title}
-            fill
-            className="object-cover"
-            priority
-            sizes="(max-width: 1024px) 100vw, 50vw"
-          />
+      <article>
+        <div className="grid lg:grid-cols-[1fr_1.2fr] gap-10 items-center mb-10">
+          <div>
+            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-ink mb-4">
+              {project.title}
+            </h1>
+            <p className="text-lg text-muted mb-8">{project.description}</p>
+            <div className="flex flex-wrap gap-4">
+              {project.demoUrl && (
+                <a
+                  href={project.demoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-primary text-white font-semibold px-6 py-3 rounded-xl hover:bg-primary/90 transition"
+                >
+                  Ver demo <ArrowUpRight className="w-4 h-4" />
+                </a>
+              )}
+              {project.githubUrl && (
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 border-2 border-primary text-primary-text font-semibold px-6 py-3 rounded-xl hover:bg-soft transition"
+                >
+                  Código <Code className="w-4 h-4" />
+                </a>
+              )}
+            </div>
+          </div>
+
+          <div className="relative w-full aspect-video rounded-2xl overflow-hidden border border-line bg-surface shadow-xl">
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              className="object-cover"
+              priority
+              sizes="(max-width: 1024px) 100vw, 55vw"
+            />
+          </div>
         </div>
 
-        <div>
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-ink mb-4">
-            {project.title}
-          </h1>
-          <p className="text-lg text-muted mb-6">{project.description}</p>
-
-          <h2 className="text-lg font-bold text-ink mb-3">Tecnologías</h2>
-          <div className="flex flex-wrap gap-2 mb-8">
-            {project.technologies.map((tech) => (
-              <span
-                key={tech}
-                className="text-sm font-medium bg-surface border border-line text-ink px-3 py-1 rounded-md"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-
-          <div className="flex flex-wrap gap-4 mb-8">
-            {project.demoUrl && (
-              <a
-                href={project.demoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-primary text-white font-semibold px-6 py-3 rounded-xl hover:bg-primary/90 transition"
-              >
-                Ver demo <ArrowUpRight className="w-4 h-4" />
-              </a>
-            )}
-            {project.githubUrl && (
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 border-2 border-primary text-primary-text font-semibold px-6 py-3 rounded-xl hover:bg-soft transition"
-              >
-                <Github className="w-5 h-5" /> GitHub <ArrowUpRight className="w-4 h-4" />
-              </a>
-            )}
-          </div>
+        <div className="grid md:grid-cols-2 gap-6">
+          <section className="bg-surface border border-line rounded-2xl p-6 shadow-sm">
+            <h2 className="text-xl font-bold text-ink mb-5">Tecnologías</h2>
+            <ul className="flex flex-wrap gap-4">
+              {project.technologies.map((tech) => {
+                const style = techStyle(tech);
+                return (
+                  <li key={tech} className="flex flex-col items-center gap-1.5 w-20">
+                    <span
+                      aria-hidden="true"
+                      className={`w-12 h-12 grid place-items-center rounded-xl font-bold text-sm ${style.cls}`}
+                    >
+                      {style.abbr}
+                    </span>
+                    <span className="text-xs text-muted text-center">{tech}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
 
           {project.features && project.features.length > 0 && (
-            <>
-              <h2 className="text-lg font-bold text-ink mb-3">Características</h2>
-              <ul className="space-y-2">
+            <section className="bg-surface border border-line rounded-2xl p-6 shadow-sm">
+              <h2 className="text-xl font-bold text-ink mb-5">Características</h2>
+              <ul className="space-y-3">
                 {project.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-2 text-muted">
-                    <Check className="w-5 h-5 text-green-600 dark:text-green-400 shrink-0 mt-0.5" />
+                  <li key={feature} className="flex items-start gap-2 text-ink">
+                    <Check className="w-5 h-5 text-primary-text shrink-0 mt-0.5" />
                     {feature}
                   </li>
                 ))}
               </ul>
-            </>
+            </section>
           )}
         </div>
       </article>

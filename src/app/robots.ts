@@ -6,15 +6,18 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: '*',
-        allow: '/',
+        // TAREA: se permite explícitamente la nueva página de contacto
+        allow: ['/', '/contact'],
         disallow: ['/api/', '/admin/', '/_next/'],
       },
       {
         userAgent: 'Googlebot',
-        allow: '/',
+        allow: ['/', '/contact'],
         disallow: ['/api/', '/admin/'],
       },
     ],
     sitemap: `${personalInfo.siteUrl}/sitemap.xml`,
+    // TAREA: dominio principal del sitio
+    host: personalInfo.siteUrl,
   };
 }

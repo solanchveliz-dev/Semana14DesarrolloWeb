@@ -4,27 +4,31 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --bg: #f6f6fb;
+  --bg: #f4f7f8;
   --surface: #ffffff;
-  --ink: #0f1222;
-  --muted: #4a4f63;
-  --line: #e5e7f0;
-  --soft: #ecebff;
-  --primary: #3b35d6;
-  --primary-text: #3b35d6;
-  --accent-text: #6d28d9;
+  --ink: #0b1b24;
+  --muted: #4b5b66;
+  --line: #e2e9ec;
+  --soft: #e3f5f2;
+  --primary: #0f766e; /* teal-700: texto blanco con buen contraste */
+  --primary-text: #0f766e;
+  --hero: #071a24; /* fondo oscuro del inicio */
+  --accent: #2dd4bf; /* turquesa brillante */
+  --accent-ink: #042f2e;
 }
 
 .dark {
-  --bg: #0b0d17;
-  --surface: #151829;
-  --ink: #f3f4f9;
-  --muted: #aeb3c7;
-  --line: #2a2e44;
-  --soft: #262a52;
-  --primary: #4f46e5;
-  --primary-text: #a5b4fc;
-  --accent-text: #c4b5fd;
+  --bg: #061117;
+  --surface: #0d1d26;
+  --ink: #eef6f7;
+  --muted: #a3b6be;
+  --line: #1f3440;
+  --soft: #10302d;
+  --primary: #0f766e;
+  --primary-text: #5eead4;
+  --hero: #04121a;
+  --accent: #2dd4bf;
+  --accent-ink: #042f2e;
 }
 
 @theme inline {
@@ -36,7 +40,9 @@
   --color-soft: var(--soft);
   --color-primary: var(--primary);
   --color-primary-text: var(--primary-text);
-  --color-accent-text: var(--accent-text);
+  --color-hero: var(--hero);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
   --font-sans: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
   --font-display: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
 }

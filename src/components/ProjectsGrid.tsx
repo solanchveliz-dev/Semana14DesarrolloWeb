@@ -39,7 +39,7 @@ export default function ProjectsGrid({ projects }: { projects: Project[] }) {
 
       {/* h2 oculto: mantiene el orden h1 > h2 > h3 (Accesibilidad en Lighthouse) */}
       <h2 className="sr-only">Listado de proyectos</h2>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid gap-4">
         {visible.map((project) => (
           <ProjectCard key={project.slug} project={project} compact />
         ))}
